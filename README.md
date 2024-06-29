@@ -1,0 +1,2 @@
+# WarriorAngerServer
+Allows for automation
