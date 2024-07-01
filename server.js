@@ -42,8 +42,8 @@ app.post('/anger/nexus', (req, res) => {
       res.send({ status: 'Message broadcasted to all clients' });
   } else {
     console.log("Invalid token/none provided.");
+    res.send({ status: 'Invalid token/none provided.' });
   }
-  res.send({ status: 'Invalid token/none provided.' });
 });
 
 server.listen(7000, () => {
