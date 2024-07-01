@@ -10,6 +10,8 @@ const wss = new WebSocket.Server({ server, path: '/anger/client' });
 
 let clients = [];
 
+let token = "";
+
 wss.on('connection', (ws) => {
   clients.push(ws);
 
@@ -22,20 +24,26 @@ app.use(bodyParser.json());
 
 app.post('/anger/nexus', (req, res) => {
   const message = req.body;
+  const headers = req.headers;
   if (!message) {
     return res.status(400).send({ error: 'No JSON payload provided' });
   }
 
-  console.log(req.headers)
-  console.log(req.ip)
-
-  clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(message));
-    }
-  });
-
-  res.send({ status: 'Message broadcasted to all clients' });
+  if (message["token"]) {
+    token = message["token"];
+    res.send({ status: 'Token Set' });
+  } else if (headers["nexus-token"] == token) {
+    clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(message));
+        }
+      });
+    
+      res.send({ status: 'Message broadcasted to all clients' });
+  } else {
+    console.log("Invalid token/none provided.");
+  }
+  res.send({ status: 'Invalid token/none provided.' });
 });
 
 server.listen(7000, () => {
