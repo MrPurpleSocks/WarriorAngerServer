@@ -49,6 +49,7 @@ app.post('/anger/nexus', (req, res) => {
   } else if (headers["nexus-token"] == token) {
     if (!lastQueued) {
         lastQueued = message["nowQueuing"];
+        message["disregard"] = false;
     } else if (lastQueued == message["nowQueuing"]) {
         console.log("Already queued, duplicate request, disregarding.");
         message["disregard"] = true;
