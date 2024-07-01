@@ -1,4 +1,16 @@
-// server.js
+// good luck to anyone that tries to understand this code
+// i don't even understand it myself
+// i just copied it from the internet and changed some stuff
+// i coded this at 3am and i don't even know what i'm doing
+// i dont use node.js
+// i dont know javascript
+// i dont know express
+// i dont know websockets
+// i dont know anything
+// i just want to go to sleep
+// i'm sorry
+// i'm so sorry
+
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
@@ -11,6 +23,7 @@ const wss = new WebSocket.Server({ server, path: '/anger/client' });
 let clients = [];
 
 let token = "";
+let lastQueued = "";
 
 wss.on('connection', (ws) => {
   clients.push(ws);
@@ -32,7 +45,18 @@ app.post('/anger/nexus', (req, res) => {
   if (message["token"]) {
     token = message["token"];
     res.send({ status: 'Token Set' });
+    console.log("Token Set! Now using: " + token);
   } else if (headers["nexus-token"] == token) {
+    if (!lastQueued) {
+        lastQueued = message["nowQueuing"];
+    } else if (lastQueued == message["nowQueuing"]) {
+        console.log("Already queued, duplicate request, disregarding.");
+        message["disregard"] = true;
+    } else {
+        lastQueued = message["nowQueuing"];
+        message["disregard"] = false;
+    }
+
     clients.forEach(client => {
         if (client.readyState === WebSocket.OPEN) {
           client.send(JSON.stringify(message));
