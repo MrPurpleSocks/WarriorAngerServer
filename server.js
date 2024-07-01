@@ -1,16 +1,3 @@
-// good luck to anyone that tries to understand this code
-// i don't even understand it myself
-// i just copied it from the internet and changed some stuff
-// i coded this at 3am and i don't even know what i'm doing
-// i dont use node.js
-// i dont know javascript
-// i dont know express
-// i dont know websockets
-// i dont know anything
-// i just want to go to sleep
-// i'm sorry
-// i'm so sorry
-
 const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
@@ -51,7 +38,6 @@ app.post('/anger/nexus', (req, res) => {
         lastQueued = message["nowQueuing"];
         message["disregard"] = false;
     } else if (lastQueued == message["nowQueuing"]) {
-        console.log("Already queued, duplicate request, disregarding.");
         message["disregard"] = true;
     } else {
         lastQueued = message["nowQueuing"];
@@ -66,13 +52,17 @@ app.post('/anger/nexus', (req, res) => {
     
       res.send({ status: 'Message broadcasted to all clients' });
   } else {
-    console.log("Invalid token/none provided.");
+    console.log("Warning! Invalid token/none provided.");
     res.send({ status: 'Invalid token/none provided.' });
   }
 });
 
 server.listen(7000, () => {
-  console.log('Server is listening on https://api.mrpurplesocks.hackclub.app/anger/nexus');
-  console.log('WebSocket server is listening on wss://api.mrpurplesocks.hackclub.app/anger/client');
-  console.log('Press Ctrl+C to quit.');
+    console.log('WarriorAnger Server v1.0');
+    console.log('Minimum supported client version: v4.0');
+    console.log('Created by MrPurpleSocks');
+    console.log('');
+    console.log('Server is listening on https://api.mrpurplesocks.hackclub.app/anger/nexus');
+    console.log('WebSocket server is listening on wss://api.mrpurplesocks.hackclub.app/anger/client');
+    console.log('Press Ctrl+C to quit.');
 });
