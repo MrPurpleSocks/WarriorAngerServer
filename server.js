@@ -26,6 +26,9 @@ app.post('/anger/nexus', (req, res) => {
     return res.status(400).send({ error: 'No JSON payload provided' });
   }
 
+  console.log(req.headers)
+  console.log(req.ip)
+
   clients.forEach(client => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify(message));
