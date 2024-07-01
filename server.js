@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server, path: '/client' });
+const wss = new WebSocket.Server({ server, path: '/anger/client' });
 
 let clients = [];
 
@@ -20,7 +20,7 @@ wss.on('connection', (ws) => {
 
 app.use(bodyParser.json());
 
-app.post('/nexus', (req, res) => {
+app.post('/anger/nexus', (req, res) => {
   const message = req.body;
   if (!message) {
     return res.status(400).send({ error: 'No JSON payload provided' });
@@ -35,6 +35,8 @@ app.post('/nexus', (req, res) => {
   res.send({ status: 'Message broadcasted to all clients' });
 });
 
-server.listen(3000, () => {
-  console.log('Server is listening on port 3000');
+server.listen(7000, () => {
+  console.log('Server is listening on https://api.mrpurplesocks.hackclub.app/anger/nexus');
+  console.log('WebSocket server is listening on wss://api.mrpurplesocks.hackclub.app/anger/client');
+  console.log('Press Ctrl+C to quit.');
 });
