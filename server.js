@@ -9,7 +9,7 @@ const wss = new WebSocket.Server({ server, path: '/anger/client' });
 
 let clients = [];
 
-let token = "";
+let token = process.env.TOKEN;
 let lastQueued = "";
 
 wss.on('connection', (ws) => {
